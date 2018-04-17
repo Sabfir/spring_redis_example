@@ -1,28 +1,34 @@
 package com.techprimers.cache.springredisexample;
 
 import com.techprimers.cache.springredisexample.model.User;
+import com.techprimers.cache.springredisexample.repository.crud_repo.UserCrudRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
 public class SpringRedisExampleApplication {
+    @Autowired
+    private UserCrudRepository repo;
+//    private UserCustomRepository repo;
 
-	public static void main(String[] args) {
-		SpringApplication.run(SpringRedisExampleApplication.class, args);
-	}
-
-	@Bean
-    LettuceConnectionFactory lettuceConnectionFactory() {
-	    return new LettuceConnectionFactory();
+    public static void main(String[] args) {
+        ConfigurableApplicationContext context = SpringApplication.run(SpringRedisExampleApplication.class, args);
+        context.getBean(SpringRedisExampleApplication.class).run();
     }
 
-    @Bean
-    RedisTemplate<String, User> redisTemplate() {
-	    RedisTemplate<String, User> redisTemplate = new RedisTemplate<>();
-	    redisTemplate.setConnectionFactory(lettuceConnectionFactory());
-	    return redisTemplate;
+    private void run() {
+        User rand = new User("rand", "al'thor", 100L);
+
+        repo.save(rand);
+        System.out.println("save: " + rand);
+
+        System.out.println("findById: " + repo.findById(rand.getId()));
+
+        System.out.println("count: " + repo.count());
+
+        repo.delete(rand);
+        System.out.println("delete");
     }
 }

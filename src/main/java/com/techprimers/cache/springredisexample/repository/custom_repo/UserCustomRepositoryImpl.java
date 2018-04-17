@@ -1,4 +1,4 @@
-package com.techprimers.cache.springredisexample;
+package com.techprimers.cache.springredisexample.repository.custom_repo;
 
 import com.techprimers.cache.springredisexample.model.User;
 import java.util.Map;
@@ -7,12 +7,10 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class UserRepositoryImpl implements UserRepository {
-//    private RedisTemplate<String, User> redisTemplate;
+public class UserCustomRepositoryImpl implements UserCustomRepository {
     private HashOperations<String, String, User> hashOperations;
 
-    public UserRepositoryImpl(RedisTemplate<String, User> redisTemplate) {
-//        this.redisTemplate = redisTemplate;
+    public UserCustomRepositoryImpl(RedisTemplate<String, User> redisTemplate) {
         this.hashOperations = redisTemplate.opsForHash();
     }
 
@@ -37,7 +35,12 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void delete(String id) {
-        hashOperations.delete("USER", id);
+    public void delete(User user) {
+        hashOperations.delete("USER", user.getId());
+    }
+
+    @Override
+    public Long count() {
+        return hashOperations.size("USER");
     }
 }

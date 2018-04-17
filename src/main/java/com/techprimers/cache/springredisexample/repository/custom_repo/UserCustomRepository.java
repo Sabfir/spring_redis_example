@@ -1,9 +1,9 @@
-package com.techprimers.cache.springredisexample;
+package com.techprimers.cache.springredisexample.repository.custom_repo;
 
 import com.techprimers.cache.springredisexample.model.User;
 import java.util.Map;
 
-public interface UserRepository {
+public interface UserCustomRepository {
 
     void save(User user);
 
@@ -13,5 +13,7 @@ public interface UserRepository {
 
     void update(User user);
 
-    void delete(String id);
+    void delete(User user);
+
+    Long count();
 }
