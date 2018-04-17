@@ -11,7 +11,6 @@ public class User implements Serializable {
     private String id;
     @Indexed
     private String name;
-    @Indexed
     private Long salary;
 
     public User() {
