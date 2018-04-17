@@ -19,7 +19,7 @@ public class SpringRedisExampleApplication {
     }
 
     private void run() {
-        User rand = new User("rand", "al'thor", 100L);
+        User rand = new User("rand", "sabfir", 100L);
 
         repo.save(rand);
         System.out.println("save: " + rand);
@@ -28,7 +28,11 @@ public class SpringRedisExampleApplication {
 
         System.out.println("count: " + repo.count());
 
+        System.out.println("findByName: " + repo.findByName("sabfir"));
+
         repo.delete(rand);
         System.out.println("delete");
+
+        System.out.println("findByName: " + repo.findByName("sabfir"));
     }
 }

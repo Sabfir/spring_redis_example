@@ -3,12 +3,15 @@ package com.techprimers.cache.springredisexample.model;
 import java.io.Serializable;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
 
 @RedisHash("USER")
 public class User implements Serializable {
     @Id
     private String id;
+    @Indexed
     private String name;
+    @Indexed
     private Long salary;
 
     public User() {
