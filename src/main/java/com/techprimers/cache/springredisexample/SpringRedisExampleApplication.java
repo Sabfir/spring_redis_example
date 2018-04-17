@@ -21,23 +21,34 @@ public class SpringRedisExampleApplication {
     }
 
     private void run(ConfigurableApplicationContext context) {
-        User rand = new User("rand", "sabfir", 100L);
+        User user = new User("rand", "sabfir", 100L);
 
-        repo.save(rand);
-        System.out.println("save: " + rand);
+        System.out.println("save: " + repo.save(user));
 
-        System.out.println("findById: " + repo.findById(rand.getId()));
+        System.out.println("findById: " + repo.findById(user.getId()));
+
+        // partial update
+        RedisKeyValueTemplate template = context.getBean(RedisKeyValueTemplate.class);
+        template.update(PartialUpdate.newPartialUpdate(user.getId(), User.class).set("salary", 150L));
+        System.out.println("findByName after partial update: " + repo.findByName("sabfir"));
 
         System.out.println("count: " + repo.count());
 
-        RedisKeyValueTemplate template = context.getBean(RedisKeyValueTemplate.class);
-        template.update(PartialUpdate.newPartialUpdate(rand.getId(), User.class).set("salary", 150L));
-
-        System.out.println("findByName after partial update: " + repo.findByName("sabfir"));
-
-        repo.delete(rand);
+        repo.delete(user);
         System.out.println("delete");
 
+        // getting not existent value
         System.out.println("findByName: " + repo.findByName("sabfir"));
+
+        // ttl testing
+        user.setTtl(1L);
+        System.out.println("save: " + repo.save(user));
+        System.out.println("findById BEFORE ttl expired: " + repo.findById(user.getId()));
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("findById AFTER ttl expired: " + repo.findById(user.getId()));
     }
 }

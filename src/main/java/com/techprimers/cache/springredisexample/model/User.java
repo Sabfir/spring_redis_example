@@ -3,6 +3,7 @@ package com.techprimers.cache.springredisexample.model;
 import java.io.Serializable;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.TimeToLive;
 import org.springframework.data.redis.core.index.Indexed;
 
 @RedisHash("USER")
@@ -12,6 +13,8 @@ public class User implements Serializable {
     @Indexed
     private String name;
     private Long salary;
+    @TimeToLive
+    private Long ttl;
 
     public User() {
     }
@@ -44,6 +47,14 @@ public class User implements Serializable {
 
     public void setSalary(Long salary) {
         this.salary = salary;
+    }
+
+    public Long getTtl() {
+        return ttl;
+    }
+
+    public void setTtl(Long ttl) {
+        this.ttl = ttl;
     }
 
     @Override

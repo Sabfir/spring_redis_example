@@ -10,8 +10,13 @@
 - <u>low level usage of RedisTemplate:</u> <i>see interface UserCustomRepository.java and its implementation UserCustomRepositoryImpl.java</i>
 
 ###3. Other Features
-- Partial Update. See SpringRedisExampleApplication.java:
+a. Partial Update. See SpringRedisExampleApplication.java:
 ```
     RedisKeyValueTemplate template = context.getBean(RedisKeyValueTemplate.class);
     template.update(PartialUpdate.newPartialUpdate(rand.getId(), User.class).set("salary", 150L));
+```
+b. Ttl feature. See User.java field ttl
+```
+    @TimeToLive
+    private Long ttl;
 ```
