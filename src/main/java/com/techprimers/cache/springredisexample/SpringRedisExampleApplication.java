@@ -21,7 +21,7 @@ public class SpringRedisExampleApplication {
     }
 
     private void run(ConfigurableApplicationContext context) {
-        User user = new User("rand", "sabfir", 100L);
+        User user = new User("myId", "sabfir", 100L);
 
         System.out.println("save: " + repo.save(user));
 
@@ -38,7 +38,7 @@ public class SpringRedisExampleApplication {
         System.out.println("delete");
 
         // getting not existent value
-        System.out.println("findByName: " + repo.findByName("sabfir"));
+        System.out.println("Getting not existent value. findByName: " + repo.findByName("sabfir"));
 
         // ttl testing
         user.setTtl(1L);
